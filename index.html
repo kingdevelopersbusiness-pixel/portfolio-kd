@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KD PORTFOLIO | RED EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Great+Vibes&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Changed Gold to a vibrant, premium Red */
+            --accent-red: #FF0000;
+            --deep-red: #8B0000;
+            --dark: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Grid & Glow --- */
+        .grid-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255, 0, 0, 0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 0, 0, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px; z-index: -1;
+        }
+
+        #cursor-glow {
+            position: fixed; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.08) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;
+        }
+
+        #cursor-dot {
+            position: fixed; width: 8px; height: 8px; background: var(--accent-red);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
+            z-index: 10000; box-shadow: 0 0 15px var(--accent-red); transition: width 0.3s, height 0.3s;
+        }
+
+        /* --- Title Animation --- */
+        @keyframes revealLetter { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .reveal-char { display: inline-block; animation: revealLetter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+
+        /* --- 3D K-Core --- */
+        .scene { width: 150px; height: 150px; perspective: 1000px; margin-bottom: 30px; }
+        .k-core { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: autoRotate 15s linear infinite; }
+        @keyframes autoRotate { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        .k-face { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat'; font-size: 5rem; color: var(--accent-red); border: 2px solid var(--accent-red); background: rgba(255, 0, 0, 0.08); text-shadow: 0 0 10px var(--accent-red); }
+        .front { transform: translateZ(60px); }
+        .back  { transform: rotateY(180deg) translateZ(60px); }
+        .right { transform: rotateY(90deg) translateZ(60px); }
+        .left  { transform: rotateY(-90deg) translateZ(60px); }
+
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .brand-name { font-family: 'Montserrat'; font-size: clamp(2.5rem, 8vw, 6rem); letter-spacing: -2px; }
+        .tagline { font-family: 'Great Vibes'; font-size: 3rem; color: var(--accent-red); margin: 15px 0 40px; text-shadow: 0 0 15px rgba(255,0,0,0.3); }
+
+        .hover-effect { text-decoration: none; color: #fff; font-family: 'Montserrat'; display: inline-block; position: relative; padding: 10px 0; transition: 0.4s; font-size: 0.9rem; letter-spacing: 2px; }
+        .hover-effect::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background: var(--accent-red); transition: 0.4s; }
+        .hover-effect:hover { color: var(--accent-red); transform: scale(1.1); }
+        .hover-effect:hover::after { width: 100%; }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- About Box --- */
+        section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .about-box {
+            background: var(--glass); padding: 60px 40px; border-radius: 20px;
+            max-width: 850px; margin: 0 auto; line-height: 1.8; font-size: 1.15rem;
+            position: relative; transition: 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(15px);
+        }
+
+        .about-box span { position: absolute; background: var(--accent-red); transition: 0.3s; box-shadow: 0 0 10px var(--accent-red); }
+        .about-box span:nth-child(1) { top: 0; left: 0; width: 0; height: 2px; transition-delay: 0s; }
+        .about-box span:nth-child(2) { top: 0; right: 0; width: 2px; height: 0; transition-delay: 0.3s; }
+        .about-box span:nth-child(3) { bottom: 0; right: 0; width: 0; height: 2px; transition-delay: 0.6s; }
+        .about-box span:nth-child(4) { bottom: 0; left: 0; width: 2px; height: 0; transition-delay: 0.9s; }
+
+        .about-box:hover { transform: scale(1.05); background: rgba(255, 0, 0, 0.02); }
+        .about-box:hover span:nth-child(1), .about-box:hover span:nth-child(3) { width: 100%; }
+        .about-box:hover span:nth-child(2), .about-box:hover span:nth-child(4) { height: 100%; }
+
+        /* --- Project Cards --- */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; perspective: 1000px; }
+        .card {
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.05);
+            padding: 80px 40px; border-radius: 20px; text-decoration: none; color: #fff;
+            display: block; transition: 0.5s; transform-style: preserve-3d;
+        }
+        .card:hover { transform: rotateY(15deg) rotateX(10deg) scale(1.08); border-color: var(--accent-red); box-shadow: 0 10px 30px rgba(255, 0, 0, 0.1); }
+
+        /* --- Instagram Pop-Up --- */
+        .insta-container { margin: 50px auto; width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; }
+        .insta-logo {
+            width: 100%; height: 100%; border: 3px solid #fff; border-radius: 18px;
+            position: relative; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+        }
+        .insta-logo::before {
+            content: ''; position: absolute; width: 26px; height: 26px; border: 3px solid #fff;
+            border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+        .insta-logo:hover {
+            transform: scale(1.3);
+            border-color: var(--accent-red);
+            background: rgba(255, 0, 0, 0.15);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+        .insta-logo:hover::before { border-color: var(--accent-red); }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-glow"></div>
+    <div id="cursor-dot"></div>
+    <div class="grid-bg"></div>
+
+    <header>
+        <div class="scene">
+            <div class="k-core" id="kCore">
+                <div class="k-face front">K</div>
+                <div class="k-face back">K</div>
+                <div class="k-face right">K</div>
+                <div class="k-face left">K</div>
+            </div>
+        </div>
+        <h1 class="brand-name" id="main-title"></h1>
+        <p class="tagline">we create pro sites</p>
+        <div style="display: flex; gap: 40px;">
+            <a href="#works" class="hover-effect">SEE PROJECTS</a>
+            <a href="#contact" class="hover-effect">ORDER NOW</a>
+        </div>
+    </header>
+
+    <section id="about" class="reveal">
+        <h2 style="font-family: 'Montserrat'; margin-bottom: 40px; color: var(--accent-red);">ABOUT US</h2>
+        <div class="about-box">
+            <span></span><span></span><span></span><span></span>
+            At <strong>King Developers</strong>, we bridge the gap between imagination and digital reality. We are a premium boutique agency specializing in immersive 3D web experiences, modern branding, and high-performance digital solutions. Our mission is to make your brand the "King" of its industry.
+        </div>
+    </section>
+
+    <section id="works" class="reveal">
+        <h2 style="font-family: 'Montserrat'; margin-bottom: 50px; color: var(--accent-red);">OUR PROJECTS</h2>
+        <div class="projects-grid">
+            <a href="https://lamaison.created.app" target="_blank" class="card"><h3>LA MAISON</h3></a>
+            <a href="https://luxesalon.created.app/" target="_blank" class="card"><h3>LUXE SALON</h3></a>
+            <a href="https://elitefitness.created.app" target="_blank" class="card"><h3>ELITE GYM</h3></a>
+        </div>
+    </section>
+
+    <section id="contact" class="reveal">
+        <h2 style="font-family: 'Montserrat'; margin-bottom: 30px; color: var(--accent-red);">CONNECT WITH US</h2>
+        <a href="mailto:kingdevelopers.business@gmail.com" class="hover-effect" style="font-size: clamp(0.9rem, 4vw, 2.2rem);">
+            kingdevelopers.business@gmail.com
+        </a>
+        <div class="insta-container">
+            <a href="https://www.instagram.com/kingdevelopers.agency/" target="_blank" class="insta-logo"></a>
+        </div>
+    </section>
+
+    <script>
+        const titleContainer = document.getElementById('main-title');
+        const text = "KING DEVELOPERS";
+        text.split("").forEach((char, i) => {
+            const span = document.createElement('span');
+            span.innerText = char === " " ? "\u00A0" : char;
+            span.className = "reveal-char";
+            span.style.animationDelay = `${i * 0.05}s`;
+            titleContainer.appendChild(span);
+        });
+
+        const glow = document.getElementById('cursor-glow');
+        const dot = document.getElementById('cursor-dot');
+        const kCore = document.getElementById('kCore');
+
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px';
+            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+            const x = (window.innerWidth / 2 - e.clientX) / 10;
+            const y = (window.innerHeight / 2 - e.clientY) / 10;
+            kCore.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        function revealOnScroll() {
+            var reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                var windowHeight = window.innerHeight;
+                if (el.getBoundingClientRect().top < windowHeight - 50 && el.getBoundingClientRect().bottom > 50) {
+                    el.classList.add("active");
+                } else { el.classList.remove("active"); }
+            });
+        }
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll();
+
+        document.querySelectorAll('a, .about-box').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                dot.style.width = '60px'; dot.style.height = '60px';
+                dot.style.background = 'rgba(255, 0, 0, 0.15)';
+                dot.style.border = '1px solid #FF0000';
+            });
+            el.addEventListener('mouseleave', () => {
+                dot.style.width = '8px'; dot.style.height = '8px';
+                dot.style.background = '#FF0000'; dot.style.border = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
